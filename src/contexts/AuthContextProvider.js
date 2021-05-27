@@ -9,6 +9,10 @@ function AuthContextProvider({children}){
     let decoded = {};
     if(localStorageService.getToken()){
     decoded = jwt_decode(localStorageService.getToken());
+    // decoded = { id: 10,
+    //     username: "test1",
+    //     email: "test1@gmail.com",
+    //     discord: "testest",}
     }
     const [user, setUser] = useState(decoded);
     

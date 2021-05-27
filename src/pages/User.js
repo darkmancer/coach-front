@@ -5,7 +5,7 @@ import axios from "../config/axios";
 import moment from "moment";
 import Loading from "../components/Loading";
 import { CoachesContext } from "../contexts/CoachesContextProvider";
-import ConfirmActionModal from "../components/booking/ConfirmActionModal.js";
+import ConfirmActionModal from "../components/booking/ConfirmActionModal.js.js";
 import PayModal from "../components/PayModal"
 import AvatarModal from "../components/AvatarModal"
 export default function User() {
@@ -27,7 +27,7 @@ export default function User() {
   const fetchBookingList = async () => {
     try {
       const res = await axios.get(`/booking/get-booking/`);
-      setBookings(res.data.bookings);
+      setBookings(res.data.bookings.reverse());
     } catch (err) {
       console.log(`err`, err);
     }
@@ -94,11 +94,7 @@ export default function User() {
                 />
                 {booking.status}
               </p>
-              {/* <button onClick={() => handleCancel(booking.id)}>
-                Cancel This Booking
-              </button> */}
-              <button>Pay this shit</button>
-              <PayModal 
+              {booking.status!=="CANCELED" ? (<> <PayModal 
               bookingId={booking.id}
               button="UPLOAD PAYMENT"
               message="Are you willing to pay this shit?"
@@ -109,7 +105,8 @@ export default function User() {
                 button="CANCEL BOOKING"
                 message="You are cancelling this booking. Are you sure?"
                 title="Cancelling booking..."
-              />
+              /></>): (<></>)}
+             
             </div>
           ))
         ) : (

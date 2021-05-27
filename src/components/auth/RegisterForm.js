@@ -103,9 +103,8 @@ export default function Register() {
         discord,
       })
       .then((res) => {
-        localStorageService.setToken(res.data.token);
-        setIsAuthenticated(true);
-        history.push("/home");
+    
+        history.push("/login");
       })
       .catch((err) => {
         if (err.response) {

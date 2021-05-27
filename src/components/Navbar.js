@@ -181,10 +181,11 @@ export default function PrimarySearchAppBar() {
           <IconButton
             edge="start"
             className={classes.menuButton}
+            onClick={handleProfileMenuOpen}
             color="inherit"
             aria-label="open drawer"
           >
-            <MenuIcon />
+            <AccountCircle />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
             PlayPals
@@ -203,17 +204,7 @@ export default function PrimarySearchAppBar() {
             />
           </div>
           <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+          {/* <div className={classes.sectionDesktop}>
             <IconButton
               edge="end"
               aria-label="account of current user"
@@ -224,8 +215,8 @@ export default function PrimarySearchAppBar() {
             >
               <AccountCircle />
             </IconButton>
-          </div>
-          <div className={classes.sectionMobile}>
+          </div> */}
+          {/* <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"
               aria-controls={mobileMenuId}
@@ -235,7 +226,7 @@ export default function PrimarySearchAppBar() {
             >
               <MoreIcon />
             </IconButton>
-          </div>
+          </div> */}
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

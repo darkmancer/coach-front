@@ -1,12 +1,13 @@
 import { useContext, useState } from "react";
 import axios from "../../config/axios";
+import * as kuyai from "axios";
 import { useHistory } from "react-router-dom";
 import localStorageService from "../../services/localStorageService";
 import { AuthContext } from "../../contexts/AuthContextProvider";
 import jwt_decode from "jwt-decode";
 import { BottomNavigation } from "@material-ui/core";
 import React from "react";
-
+import { GoogleLogin } from "react-google-login";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -74,6 +75,16 @@ function Login() {
   //   if (!password) newError.password = "password is required";
   //   setError(newError);
   // };
+  const responseGoogle = (response) => {
+    console.log(`response`, response);
+  };
+  const handleSuccess = async (response) => {
+    console.log(response.tokenId);
+    const res = await kuyai.post("http://localhost:8000/user/googlelogin", {
+      tokenId: response.tokenId,
+    });
+    console.log(`res`, res);
+  };
 
   const handleSubmit = async (e) => {
     try {
@@ -138,7 +149,14 @@ function Login() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <GoogleLogin
+              clientId="168415094646-6d28j5ip6oojlqv418d7n061r2ipbfuj.apps.googleusercontent.com"
+              buttonText="Login"
+              onSuccess={handleSuccess}
+              onFailure={responseGoogle}
+              cookiePolicy={"single_host_origin"}
+            />
+            ,
             <Button
               type="submit"
               fullWidth
