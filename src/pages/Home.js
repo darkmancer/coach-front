@@ -58,10 +58,10 @@ function Home() {
   }, [game]);
 
   return (
-    <>
+    <div style={{padding: "50px"}}>
       <GamesBar setGame={setGame} />
       <CoachesContainer game={game} coaches={coaches} user={user} />
-    </>
+    </div>
   );
 }
 

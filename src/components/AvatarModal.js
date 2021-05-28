@@ -34,7 +34,7 @@ export default function AvatarModal({ userId, message, title, button }) {
   };
 
   const confirmAvatar = async () => {
-    console.log("kuy boi");
+  
     const formData = new FormData();
     formData.append("image", avatar);
     const res = await axios.put("/user/upload-avatar", formData, {

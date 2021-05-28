@@ -31,48 +31,49 @@ export default function CoachCard({ coaches, user }) {
     <div
       style={{
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "start",
+        flexFlow: "wrap",
+        width: "100vw",
+        padding: "50px",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "start",
-          flexFlow: "wrap",
-          width: "1200px",
-        }}
-      >
-        {coaches?.length > 0 ? (
-          coaches?.map((coach) => {
-            return (
-              <div
-                className="card"
+      {coaches?.length > 0 ? (
+        coaches?.map((coach) => {
+          return (
+            <Card
+              variant="elevation"
+              onClick={() => handlePushNewPage(coach)}
+              style={{ width: "200px", margin: "50px" }}
+            >
+              <img
+                src={coach.avatar}
+                alt="Avatar"
                 style={{
-                  boxShowdow: "0 4px 8px 0 rgba(0,0,0,0.2)",
-                  transition: "0.3s",
-                  width: "20%",
-                  margin: "20px",
+                  width: "100%",
+                  height: "200px",
+                  overflow: "hidden",
+                  objectFit: "cover",
+                  objectPosition: "50% 50%",
                 }}
-                onClick={() => handlePushNewPage(coach)}
-              >
-                <img
-                  src={coach.avatar}
-                  alt="Avatar"
-                  style={{ width: "auto", height: "200px" }}
-                />
-                <div className="container" style={{ padding: "2px 16px" }}>
-                  <h4>
-                    <b>{coach.username}</b>
-                  </h4>
-                  <p>{coach.rank}</p>
-                </div>
+              />
+              <div className="container" style={{ padding: "16px" }}>
+                <Typography
+                  variant="h5"
+                  component="h4"
+                  style={{ fontWeight: "600" }}
+                >
+                  {coach.username}
+                </Typography>
+                <Typography variant="body1" component="h4">
+                  {coach.rank}
+                </Typography>
               </div>
-            );
-          })
-        ) : (
-          <div> not found</div>
-        )}
-      </div>
+            </Card>
+          );
+        })
+      ) : (
+        <div> not found</div>
+      )}
     </div>
   );
 }

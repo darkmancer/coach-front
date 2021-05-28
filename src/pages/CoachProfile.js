@@ -7,11 +7,12 @@ import axios from "../config/axios";
 import ReviewModal from "../components/ReviewModal";
 import Rating from "@material-ui/lab/Rating";
 import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
+import Paper from "@material-ui/core/Paper";
+import Divider from "@material-ui/core/Divider";
 
 export default function CoachProfile({}) {
   //   const location = useLocation();
- 
+
   const [coach, setCoach] = useState(null);
   const [reviews, setReviews] = useState(null);
   const [whoReview, setWhoReview] = useState(null);
@@ -45,9 +46,9 @@ export default function CoachProfile({}) {
       try {
         const res = await axios.get(`/review/${id}`);
         console.log(res);
-        console.log("this shit")
+        console.log("this shit");
         setReviews(res.data.reviews.reverse());
-        setAvgScore(res.data.averageScore)
+        setAvgScore(res.data.averageScore);
       } catch (err) {
         console.log(`err`, err);
       }
@@ -71,43 +72,113 @@ export default function CoachProfile({}) {
   console.log(`avgScore`, avgScore);
 
   return (
-    <div>
-      <div>
-        {coach ? (
-          <div>
-            <h1>coach profile</h1>
-            <h1>{coach.username}</h1>
-            <img src={coach.avatar} width="100" height="100" />
-            <h2>{coach.about}</h2>
-            <h4>฿{coach.price}/Hour</h4>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      {coach ? (
+        <Paper
+          elevation={5}
+          style={{
+            margin: "10vh",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+            }}
+          >
+            <div
+              style={{
+                width: "40%",
 
-            <Rating name="read-only" value={avgScore} readOnly />
-            <BookingModal coach={coach}></BookingModal>
-            <ReviewModal coachId={coach.id} setTrigger={setTrigger} />
-          </div>
-        ) : (
-          <div>loading</div>
-        )}
-      </div>
-
-      {reviews
-        ? reviews.map((review) => (
-            <div>
-              <Rating name="read-only" value={review.reviewScore} readOnly />
-
-              <p>review: {review.review}</p>
-              <p>
-                review by:
-                {
-                  whoReview?.filter((who) => {
-                    return who.userId == review.userId;
-                  })[0].username
-                }
-              </p>
-              <hr></hr>
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-end",
+              }}
+            >
+              <img
+                src={coach.avatar}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  overflow: "hidden",
+                  objectFit: "cover",
+                  objectPosition: "50% 50%",
+                }}
+              />
             </div>
-          ))
-        : null}
+            <div
+              style={{
+                padding: "20px",
+
+                width: "40%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-evenly",
+                alignItems: "flex-start",
+              }}
+            >
+              <Typography variant="h3">{coach.username}</Typography>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <Rating name="read-only" value={avgScore} readOnly /> (
+                {reviews?.length} บทวิจารณ์จากลูกค้า)
+              </div>
+              <Typography variant="h4">฿{coach.price}/Hour</Typography>
+              <BookingModal coach={coach}></BookingModal>
+              <Typography>{coach.about}</Typography>
+
+              <ReviewModal coachId={coach.id} setTrigger={setTrigger} />
+            </div>
+            <Paper
+              style={{
+                width: "20%",
+                height: "600px",
+                overflow: "scroll",
+              }}
+            >
+              {reviews
+                ? reviews.map((review) => (
+                    <div>
+                      <div style={{ padding: "20px" }}>
+                        <Rating
+                          name="read-only"
+                          value={review.reviewScore}
+                          readOnly
+                        />
+
+                        <Typography variant="subtitle1">{review.review}</Typography>
+                        <Typography variant="subtitle2">
+                          {" "}
+                          {
+                            whoReview?.filter((who) => {
+                              return who.userId == review.userId;
+                            })[0].username
+                          } 
+                        </Typography>
+                      </div>
+                      <Divider />
+                    </div>
+                  ))
+                : null}
+            </Paper>
+          </div>
+        </Paper>
+      ) : (
+        <div>loading</div>
+      )}
     </div>
   );
 }

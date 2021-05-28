@@ -4,6 +4,7 @@ import Modal from "@material-ui/core/Modal";
 import Calendar from "./Calendar";
 import { AuthContext } from "../../contexts/AuthContextProvider";
 import { useHistory } from "react-router-dom";
+import Button from "@material-ui/core/Button";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -62,9 +63,9 @@ export default function BookingModal({ coach, user }) {
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
+      <Button variant="contained" color="secondary" onClick={handleOpen}>
         Book this Coach
-      </button>
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
