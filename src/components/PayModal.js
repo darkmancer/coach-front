@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PayModal({ bookingId, message, title, button }) {
+export default function PayModal({ bookingId, message, title, button,setTrigger }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [paymentSlip, setPaymentSlip] = React.useState({});
@@ -37,12 +37,13 @@ export default function PayModal({ bookingId, message, title, button }) {
     const formData = new FormData();
     formData.append("bookingId", bookingId);
     formData.append("image", paymentSlip);
-    await axios.put("/upload-slip/", formData, {
+    const res = await axios.put("/upload-slip/", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
     setOpen(false);
+    if(res) setTrigger((prev)=>!prev)
     // setOpenConfirmBookModal(false)
     // fetchReservations().then(() => {
     //   setOpenSnackbar({

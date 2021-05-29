@@ -17,6 +17,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import DeleteIcon from '@material-ui/icons/Delete';
+import Button from "@material-ui/core/Button";
+import SlipModal from "../components/booking/SlipModal"
 
 export default function User() {
   const { user, setUser } = useContext(AuthContext);
@@ -49,7 +52,14 @@ export default function User() {
       console.log("handleCancel works");
     } catch (err) {}
   };
-
+  const handleDelete = async (id) => {
+    try {
+      console.log(id)
+      await axios.delete(`booking/delete-booking/${id}`)
+      console.log("this work")
+      setTriggerCancel((prev)=> !prev)
+    } catch(err) {}
+  }
   useEffect(() => {
     fetchBookingList();
     fetchCoaches();
@@ -144,14 +154,15 @@ export default function User() {
                     </TableCell>
                     <TableCell>{booking.status}</TableCell>
                     <TableCell>
-                      {booking.status !== "CANCELED" ? (
+                      {booking.status === "BOOKED" ? (
                         <>
                           {" "}
                           <PayModal
                             bookingId={booking.id}
                             button="UPLOAD PAYMENT"
-                            message="Are you willing to pay this shit?"
+                            message="Are you willing to pay this coach?"
                             title="pay"
+                            setTrigger={setTriggerCancel}
                           />
                           <ConfirmActionModal
                             handleConfirm={() => handleCancel(booking.id)}
@@ -160,8 +171,8 @@ export default function User() {
                             title="Cancelling booking..."
                           />
                         </>
-                      ) : (
-                        <></>
+                      ) : booking.status === "PAID" ? (<SlipModal slip={booking.transactionId}></SlipModal>):(
+                        <p><DeleteIcon onClick={()=> handleDelete(booking.id)}/></p>
                       )}
                     </TableCell>
                   </TableRow>

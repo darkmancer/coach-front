@@ -117,6 +117,9 @@ export default function PrimarySearchAppBar() {
     setIsAuthenticated(false);
     handleMenuClose();
   };
+  const handleHome = () => {
+    history.push("/home")
+  }
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -187,7 +190,7 @@ export default function PrimarySearchAppBar() {
           >
             <AccountCircle />
           </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
+          <Typography className={classes.title} variant="h6" noWrap onClick={handleHome} style={{cursor:"pointer"}}>
             PlayPals
           </Typography>
           <div className={classes.search}>
